@@ -123,6 +123,14 @@ body {
     color: #5f6368;
 }
 
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
 .hidden {
     display: none;
 }
@@ -163,6 +171,10 @@ body {
     border-radius: 4px;
 }
 
+.code-input-container {
+    margin-bottom: 24px;
+}
+
 .loading {
     display: inline-block;
     width: 20px;
@@ -171,17 +183,12 @@ body {
     border-top: 3px solid #1a73e8;
     border-radius: 50%;
     animation: spin 1s linear infinite;
+    margin-right: 10px;
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-.success-message {
-    color: #34a853;
-    font-weight: 500;
-    margin-top: 20px;
 }
 
 .error-message {
@@ -196,25 +203,116 @@ body {
     color: #5f6368;
     margin-top: 16px;
     font-style: italic;
+    text-align: center;
 }
 
-.attempt-counter {
-    font-size: 12px;
-    color: #5f6368;
-    text-align: center;
-    margin-top: 10px;
-    padding: 8px;
+.security-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
     background-color: #f8f9fa;
     border-radius: 4px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #5f6368;
 }
 
-.limit-reached {
-    color: #ea4335;
-    font-weight: 500;
-    text-align: center;
-    padding: 20px;
-    background-color: #fce8e6;
-    border-radius: 4px;
-    margin: 20px;
-  }
+.security-icon {
+    font-size: 16px;
+}
 
+.email-display {
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    font-weight: 500;
+    color: #202124;
+}
+
+.password-strength {
+    margin-top: 8px;
+}
+
+.strength-bar {
+    height: 4px;
+    background-color: #dadce0;
+    border-radius: 2px;
+    margin-bottom: 4px;
+    transition: width 0.3s, background-color 0.3s;
+}
+
+#strengthText {
+    font-size: 12px;
+    color: #5f6368;
+}
+
+.password-requirements {
+    margin-top: 16px;
+    padding: 16px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #5f6368;
+}
+
+.password-requirements ul {
+    list-style: none;
+    margin-top: 8px;
+}
+
+.password-requirements li {
+    margin-bottom: 4px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.password-requirements li:before {
+    content: "○";
+    position: absolute;
+    left: 0;
+}
+
+.password-requirements li.valid:before {
+    content: "✓";
+    color: #34a853;
+}
+
+.access-code-display {
+    margin: 24px 0;
+    padding: 16px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.code-display {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    padding: 12px;
+    background-color: white;
+    border-radius: 4px;
+    margin: 12px 0;
+    font-family: monospace;
+    color: #1a73e8;
+}
+
+.small-note {
+    font-size: 10px;
+    color: #9aa0a6;
+    margin-top: 8px;
+}
+
+.error-container {
+    text-align: center;
+    padding: 40px 24px;
+}
+
+.error-icon {
+    font-size: 48px;
+    color: #ea4335;
+    margin-bottom: 20px;
+}
+
+.error-title {
